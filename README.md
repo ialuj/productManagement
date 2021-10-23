@@ -45,6 +45,6 @@ After forking, downloading or cloning the project from Git, follow the instructi
 
 1. Enter in the root path of the project
 2. Run "mvn clean install", in order to let maven install the necessary dependencies. Before, make sure you have maven installed
-3. Run "mvn run", in order to let maven run the project for you
+3. Run "mvnw spring-boot:run", in order to let maven run the project for you
 4. There is a file with all the Postman Collection, called "STOCK_MANAGEMENT-API.postman_collection" in the root path of the project,
 5. please open or import it to Postman, each endpoint has a description
