@@ -17,6 +17,4 @@ public interface IProductService {
 
 	public void deleteProduct(final Long id);
 
-	public Product updateProductStock(final Long id, final double quantity, final boolean isAdd);
-
 }

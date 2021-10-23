@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,14 +25,15 @@ import com.cayena.api.productManagement.model.service.ISupplierQueryService;
  */
 
 @RestController
-@RequestMapping("api/v1/productManagement")
+@RequestMapping("api/v1/suppliers")
+@CrossOrigin(origins = {"*"})
 public class SupplierQueryServiceWsImpl implements ISupplierQueryServiceWs {
 
 	@Autowired
 	private ISupplierQueryService supplierQueryService;
 
-	@SuppressWarnings("unchecked")
 	@Override
+	@GetMapping("/{id}")
 	public ResponseEntity<SupplierDTO> getSupplierById(Long id) {
 
 		try {
@@ -43,18 +46,22 @@ public class SupplierQueryServiceWsImpl implements ISupplierQueryServiceWs {
 			return response;
 
 		} catch (BusinessException e) {
-			return (ResponseEntity<SupplierDTO>) ResponseEntity.status(HttpStatus.NO_CONTENT);
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		} catch (Exception e) {
-			return (ResponseEntity<SupplierDTO>) ResponseEntity.status(HttpStatus.NOT_FOUND);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
+	@GetMapping("/{name}")
 	public ResponseEntity<SupplierDTO> getSupplierByName(String name) {
 		try {
 			final Supplier supplier = supplierQueryService.getSupplierByName(name);
+
+			if (supplier == null) {
+				return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+			}
 
 			final SupplierDTO dto = new SupplierDTO(supplier);
 
@@ -63,14 +70,12 @@ public class SupplierQueryServiceWsImpl implements ISupplierQueryServiceWs {
 			return response;
 
 		} catch (BusinessException e) {
-			return (ResponseEntity<SupplierDTO>) ResponseEntity.status(HttpStatus.NO_CONTENT);
-		} catch (Exception e) {
-			return (ResponseEntity<SupplierDTO>) ResponseEntity.status(HttpStatus.NOT_FOUND);
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
+	@GetMapping
 	public ResponseEntity<List<SupplierDTO>> listAllSuppliers() {
 		try {
 			final List<Supplier> suppliers = supplierQueryService.listAllSuppliers();
@@ -82,9 +87,7 @@ public class SupplierQueryServiceWsImpl implements ISupplierQueryServiceWs {
 			return response;
 
 		} catch (BusinessException e) {
-			return (ResponseEntity<List<SupplierDTO>>) ResponseEntity.status(HttpStatus.NO_CONTENT);
-		} catch (Exception e) {
-			return (ResponseEntity<List<SupplierDTO>>) ResponseEntity.status(HttpStatus.NOT_FOUND);
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 	}
 

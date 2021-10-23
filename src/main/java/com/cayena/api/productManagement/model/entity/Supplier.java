@@ -1,12 +1,9 @@
 package com.cayena.api.productManagement.model.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,6 +17,8 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 
  * @author Jose Julai Ritsure
@@ -29,7 +28,7 @@ import javax.validation.constraints.NotNull;
  */
 
 @Entity
-@Table(name = "SUPPLIER", uniqueConstraints = { @UniqueConstraint(name ="UC_SUPPLIER_NAME", columnNames = { "NAME" }) })
+@Table(name = "SUPPLIER", uniqueConstraints = { @UniqueConstraint(name ="UC_SNAME", columnNames = { "NAME" }) })
 public class Supplier implements Serializable {
 
 	/**
@@ -50,12 +49,13 @@ public class Supplier implements Serializable {
 	@Column(name = "DATE_OF_CREATION", nullable = false)
 	private Date creationDate;
 
-	@Column(name = "DATE_OF_LAST_UPDATE", nullable = true)
+	@Column(name = "DATE_LAST_UPDATE", nullable = true)
 	private Date lastUpdateDate;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SUPPLIER_ID", referencedColumnName = "ID")
-	private List<Product> products = new ArrayList<Product>(0);
+	private List<Product> products;
 
 	public Supplier() {
 		super();
@@ -170,7 +170,7 @@ public class Supplier implements Serializable {
 	@Override
 	public String toString() {
 		return "Supplier [id=" + id + ", name=" + name + ", creationDate=" + creationDate + ", lastUpdateDate="
-				+ lastUpdateDate + ", products=" + products + "]";
+				+ lastUpdateDate +"]";
 	}
 
 }

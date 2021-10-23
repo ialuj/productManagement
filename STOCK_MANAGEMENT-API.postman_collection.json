@@ -1,0 +1,79 @@
+{
+	"info": {
+		"_postman_id": "85621ca9-7e4d-454f-9771-e705d79f2d33",
+		"name": "STOCK_MANAGEMENT-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "List all Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null,
+				"description": "This endpoint lists all the existing products in the database"
+			},
+			"response": []
+		},
+		{
+			"name": "List All Suppliers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null,
+				"description": "This endpoint allows a client to list all existing suppliers."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Product By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null,
+				"description": "This endpoint returns just one specific product by its id."
+			},
+			"response": []
+		},
+		{
+			"name": "Insert New Product",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null,
+				"description": "This endpoint allows the client to insert a product into the database given a request body, like the one described bellow:"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Product",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null,
+				"description": "This endpoint allows the client to update a product into the database given a request body, like the one described bellow:"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Product",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null,
+				"description": "This endpoint allows a client to delete a specific product by its id."
+			},
+			"response": []
+		},
+		{
+			"name": "Update Product Stock",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null,
+				"description": "This endpoint allows a client to increase or decrease a product quantity or stock, given its id, quantity and a boolean value which indicates if it is to increase or decrease."
+			},
+			"response": []
+		}
+	]
+}

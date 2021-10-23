@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,15 +25,15 @@ import com.cayena.api.productManagement.model.service.IProductQueryService;
  */
 
 @RestController
-@RequestMapping("api/v1/productManagement")
+@RequestMapping("api/v1/products")
+@CrossOrigin(origins = {"*"})
 public class ProductQueryServiceWsImpl implements IProductQueryServiceWs {
 
 	@Autowired
 	private IProductQueryService productQueryService;
 
-	@SuppressWarnings("unchecked")
 	@Override
-	@GetMapping("/id")
+	@GetMapping("/{id}")
 	public ResponseEntity<ProductDTO> getProductById(Long id) {
 
 		try {
@@ -45,15 +46,14 @@ public class ProductQueryServiceWsImpl implements IProductQueryServiceWs {
 			return response;
 
 		} catch (BusinessException e) {
-			return (ResponseEntity<ProductDTO>) ResponseEntity.status(HttpStatus.NO_CONTENT);
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		} catch (Exception e) {
-			return (ResponseEntity<ProductDTO>) ResponseEntity.status(HttpStatus.NOT_FOUND);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	@GetMapping("/all")
+	@GetMapping
 	public ResponseEntity<List<ProductDTO>> listAllProducts() {
 
 		try {
@@ -68,9 +68,9 @@ public class ProductQueryServiceWsImpl implements IProductQueryServiceWs {
 		} catch (
 
 		BusinessException e) {
-			return (ResponseEntity<List<ProductDTO>>) ResponseEntity.status(HttpStatus.NO_CONTENT);
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		} catch (Exception e) {
-			return (ResponseEntity<List<ProductDTO>>) ResponseEntity.status(HttpStatus.NOT_FOUND);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 	}
 

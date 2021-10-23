@@ -1,18 +1,18 @@
 package com.cayena.api.productManagement.model.entity;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -25,8 +25,7 @@ import javax.validation.constraints.NotNull;
  */
 
 @Entity
-@Table(name = "PRODUCT", uniqueConstraints = {
-		@UniqueConstraint(name = "UC_PRODUCT_SUPPLIER", columnNames = { "NAME", "SUPPLIER_ID", "DATE_OF_CREATION" }) })
+@Table(name = "PRODUCT")
 public class Product implements Serializable {
 
 	/**
@@ -63,7 +62,7 @@ public class Product implements Serializable {
 	@Column(name = "DATE_OF_CREATION", nullable = false)
 	private Date creationDate;
 
-	@Column(name = "DATE_OF_LAST_UPDATE", nullable = true)
+	@Column(name = "DATE_LAST_UPDATE", nullable = true)
 	private Date lastUpdateDate;
 
 	public Product() {
@@ -75,11 +74,11 @@ public class Product implements Serializable {
 			@NotNull(message = "Unit Price is required") double unitPrice, Supplier supplier,
 			@NotNull(message = "DATE OF CREATION is required") Date creationDate) {
 		super();
-		this.name = name;
-		this.quantityInStock = quantityInStock;
-		this.unitPrice = unitPrice;
-		this.supplier = supplier;
-		this.creationDate = creationDate;
+		this.setName(name);
+		this.setQuantityInStock(quantityInStock);
+		this.setUnitPrice(unitPrice);
+		this.setSupplier(supplier);
+		this.setCreationDate(creationDate);
 	}
 
 	public Product(@NotBlank(message = "Name can not be blank") String name,
@@ -111,7 +110,6 @@ public class Product implements Serializable {
 			@NotNull(message = "Unit Price is required") double unitPrice,
 			@NotNull(message = "Supplier ID is required") Long supplierId,
 			@NotBlank(message = "Creation date can not be blank") Date creationDate, Date lastUpdateDate) {
-		super();
 		this.setName(name);
 		this.setQuantityInStock(quantityInStock);
 		this.setUnitPrice(unitPrice);
@@ -124,14 +122,28 @@ public class Product implements Serializable {
 			@NotNull(message = "Quantity in stock is required") double quantityInStock,
 			@NotNull(message = "Unit Price is required") double unitPrice, Supplier supplier,
 			@NotBlank(message = "Creation date can not be blank") Date creationDate, Date lastUpdateDate) {
+		this.setId(id);
+		this.setName(name);
+		this.setQuantityInStock(quantityInStock);
+		this.setUnitPrice(unitPrice);
+		this.setSupplier(supplier);
+		this.setCreationDate(creationDate);
+		this.setLastUpdateDate(lastUpdateDate);
+	}
+
+	public Product(Long id, @NotBlank(message = "Name can not be blank") String name,
+			@NotNull(message = "Quantity in stock is required") double quantityInStock,
+			@NotNull(message = "Unit Price is required") double unitPrice,
+			@NotNull(message = "Supplier ID is required") Long supplierId,
+			@NotNull(message = "DATE OF CREATION is required") Date creationDate, Date lastUpdateDate) {
 		super();
-		this.id = id;
-		this.name = name;
-		this.quantityInStock = quantityInStock;
-		this.unitPrice = unitPrice;
-		this.supplier = supplier;
-		this.creationDate = creationDate;
-		this.lastUpdateDate = lastUpdateDate;
+		this.setId(id);
+		this.setName(name);
+		this.setQuantityInStock(quantityInStock);
+		this.setUnitPrice(unitPrice);
+		this.setSupplierId(supplierId);
+		this.setCreationDate(creationDate);
+		this.setLastUpdateDate(lastUpdateDate);
 	}
 
 	public Long getId() {

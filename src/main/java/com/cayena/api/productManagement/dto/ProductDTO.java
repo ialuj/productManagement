@@ -160,11 +160,15 @@ public class ProductDTO {
 	}
 
 	public Product toProductNewInstance() {
-		return new Product(this.getName(), this.getQuantityInStock(), this.getUnitPrice(), this.getSupplier(),
+		return new Product(this.getName(), this.getQuantityInStock(), this.getUnitPrice(), this.getSupplierId(),
 				this.getCreationDate(), this.getLastUpdateDate());
 	}
 
 	public Product toProduct() {
+		if(this.getSupplier()==null) {
+			return new Product(this.getId(), this.getName(), this.getQuantityInStock(), this.getUnitPrice(),
+					this.getSupplierId(), this.getCreationDate(), this.getLastUpdateDate());
+		}
 		return new Product(this.getId(), this.getName(), this.getQuantityInStock(), this.getUnitPrice(),
 				this.getSupplier(), this.getCreationDate(), this.getLastUpdateDate());
 	}

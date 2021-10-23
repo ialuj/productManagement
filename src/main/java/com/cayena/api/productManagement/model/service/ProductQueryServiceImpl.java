@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cayena.api.productManagement.exception.BusinessException;
 import com.cayena.api.productManagement.model.entity.Product;
 import com.cayena.api.productManagement.model.repository.ProductRepository;
 
@@ -24,7 +25,11 @@ public class ProductQueryServiceImpl implements IProductQueryService {
 
 	@Override
 	public Product getProductById(Long id) {
-		return productRepository.getById(id);
+		if(!doesProductExist(id)) {
+			throw new BusinessException("Product with ID: " + id + " does not exist!");
+		}
+		Optional<Product> optProduct = productRepository.findById(id);
+		return optProduct.get();
 	}
 
 	@Override

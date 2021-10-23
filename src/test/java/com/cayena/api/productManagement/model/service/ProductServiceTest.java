@@ -83,40 +83,4 @@ public class ProductServiceTest {
 		}
 	}
 
-	@Test
-	public void shouldUpdateProductStock() {
-
-		final Long id = 1L;
-
-		final Product product = productQueryService.getProductById(id);
-
-		final double newQuantinty = 50;
-
-		final double expectedQuantity = newQuantinty + product.getQuantityInStock();
-
-		final Product updatedProduct = productService.updateProductStock(id, newQuantinty, true);
-
-		assertEquals(expectedQuantity, updatedProduct.getQuantityInStock());
-
-	}
-
-	@Test
-	public void shouldNotUpdateProductStock() {
-
-		final Long id = 1L;
-
-		final Product product = productQueryService.getProductById(id);
-
-		final double newQuantinty = 101;
-
-		try {
-			productService.updateProductStock(id, newQuantinty, false);
-		} catch (BusinessException e) {
-			assertEquals("The available quantity: " + product.getQuantityInStock() + " in Product with ID: " + id
-					+ " and name: " + product.getName() + " is less than the quantity you intend to reduce: "
-					+ newQuantinty, e.getMessage());
-		}
-
-	}
-
 }

@@ -1,5 +1,7 @@
 package com.cayena.api.productManagement.model.service;
 
+import java.util.Optional;
+
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,35 +54,9 @@ public class ProductServiceImpl implements IProductService {
 		if (!productQueryService.doesProductExist(id)) {
 			throw new BusinessException("Product with ID: " + id + " does not exist!");
 		}
-		productRepository.deleteById(id);
-	}
-
-	@Override
-	public Product updateProductStock(final Long id, final double quantity, final boolean isAdd) {
-
-		if (!productQueryService.doesProductExist(id)) {
-			throw new BusinessException("Product with ID: " + id + " does not exist!");
-		}
-
-		Product product = productQueryService.getProductById(id);
-
-		double newStock = 0;
-
-		if (isAdd) {
-			newStock = product.getQuantityInStock() + quantity;
-			product.setQuantityInStock(newStock);
-			return product;
-		}
-
-		if (product.getQuantityInStock() < 0 || product.getQuantityInStock() < quantity) {
-			throw new BusinessException("The available quantity: " + product.getQuantityInStock()
-					+ " in Product with ID: " + id + " and name: " + product.getName()
-					+ " is less than the quantity you intend to reduce: " + quantity);
-		}
-
-		newStock = product.getQuantityInStock() - quantity;
-		product.setQuantityInStock(newStock);
-		return product;
+		Optional<Product> optProduct = productRepository.findById(id);
+		Product product = optProduct.get();
+		productRepository.delete(product);
 	}
 
 }
